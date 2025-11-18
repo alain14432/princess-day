@@ -113,6 +113,46 @@
       opacity: 0.7;
     }
 
+    /* Big heart overlay */
+    .big-heart-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+      z-index: 999;
+    }
+
+    .big-heart-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .big-heart {
+      font-size: clamp(6rem, 18vw, 12rem);
+      text-shadow: 0 0 25px rgba(255, 105, 180, 0.9);
+      animation: heartbeat 0.9s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+      0%   { transform: scale(0.7); }
+      25%  { transform: scale(1.15); }
+      40%  { transform: scale(0.95); }
+      60%  { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    .big-heart-caption {
+      margin-top: 1rem;
+      color: #ffe6f7;
+      font-size: 1rem;
+      text-align: center;
+    }
+
     @media (max-width: 600px) {
       .card {
         margin: 1rem;
@@ -122,6 +162,16 @@
   </style>
 </head>
 <body>
+  <!-- BIG HEART OVERLAY -->
+  <div id="bigHeartOverlay" class="big-heart-overlay" onclick="hideBigHeart()">
+    <div>
+      <div class="big-heart">❤️</div>
+      <div class="big-heart-caption">
+        This is still not as big as my love for you. (Tap to close)
+      </div>
+    </div>
+  </div>
+
   <main class="card">
     <div class="crown">👑</div>
     <h1>Happy Princess Day</h1>
@@ -180,6 +230,16 @@
 
     <div class="divider"></div>
 
+    <!-- NEW BIG HEART BUTTON -->
+    <section class="btn-area" style="margin-bottom: 0.75rem;">
+      <p style="font-size:0.9rem; margin-bottom:0.5rem;">
+        Click to see how much I love you (warning: very dramatic). 💥❤️
+      </p>
+      <button type="button" onclick="showBigHeart()">
+        Click to see how much I love you
+      </button>
+    </section>
+
     <section class="btn-area">
       <p style="font-size:0.9rem; margin-bottom:0.5rem;">
         Press this whenever you need a royal reminder. 💌
@@ -214,6 +274,19 @@
       const box = document.getElementById("complimentBox");
       const randomIndex = Math.floor(Math.random() * compliments.length);
       box.textContent = compliments[randomIndex];
+    }
+
+    function showBigHeart() {
+      const overlay = document.getElementById("bigHeartOverlay");
+      overlay.classList.add("show");
+
+      // optional: auto-hide after a few seconds
+      // setTimeout(hideBigHeart, 4000);
+    }
+
+    function hideBigHeart() {
+      const overlay = document.getElementById("bigHeartOverlay");
+      overlay.classList.remove("show");
     }
   </script>
 </body>
