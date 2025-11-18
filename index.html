@@ -140,39 +140,16 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      width: min(60vw, 280px);
+      width: min(90vw, 420px);
       transform: translate(-50%, -50%);
     }
 
     .heart-path {
-      fill: none;
+      fill: transparent;
       stroke: #ff5c93;
       stroke-width: 4;
       stroke-linecap: round;
       stroke-linejoin: round;
-      stroke-dasharray: 1000;
-      stroke-dashoffset: 1000;
-    }
-
-    .heart-path.animate {
-      animation:
-        draw-heart 2.2s ease-out forwards,
-        fill-heart 0.8s 2.2s ease-out forwards;
-    }
-
-    @keyframes draw-heart {
-      to {
-        stroke-dashoffset: 0;
-      }
-    }
-
-    @keyframes fill-heart {
-      from {
-        fill: rgba(255, 92, 147, 0);
-      }
-      to {
-        fill: rgba(255, 92, 147, 0.9);
-      }
     }
 
     /* Burst hearts that cover the screen */
@@ -231,7 +208,6 @@
         viewBox="0 0 100 100"
         aria-hidden="true"
       >
-        <!-- simple heart path -->
         <path
           id="heartPath"
           class="heart-path"
@@ -363,24 +339,42 @@
 
       overlay.classList.add("show");
 
-      // remove any old hearts
+      // clear old burst hearts
       heartField.querySelectorAll(".burst-heart").forEach(h => h.remove());
 
-      // restart drawing animation
-      path.classList.remove("animate");
-      void path.offsetWidth; // force reflow so animation restarts
-      path.classList.add("animate");
+      // get total length of the path
+      const length = path.getTotalLength();
 
-      // after the drawing finishes, spawn the screen full of hearts
-      setTimeout(spawnHearts, 2300);
+      // reset any previous animation state
+      path.style.transition = "none";
+      path.style.strokeDasharray = length;
+      path.style.strokeDashoffset = length;
+      path.style.fill = "transparent";
+
+      // force reflow so changes take effect
+      path.getBoundingClientRect();
+
+      // animate stroke drawing, slower and smoother
+      path.style.transition = "stroke-dashoffset 4s ease-out";
+      path.style.strokeDashoffset = "0";
+
+      // after drawing, fill the heart
+      setTimeout(() => {
+        if (!overlay.classList.contains("show")) return;
+        path.style.transition += ", fill 0.8s ease-out";
+        path.style.fill = "rgba(255, 92, 147, 0.9)";
+      }, 4000);
+
+      // after drawing finishes, spawn hearts everywhere
+      setTimeout(spawnHearts, 4200);
     }
 
     function spawnHearts() {
       const overlay = document.getElementById("bigHeartOverlay");
-      if (!overlay.classList.contains("show")) return; // if closed early, do nothing
+      if (!overlay.classList.contains("show")) return;
 
       const heartField = document.getElementById("heartField");
-      const heartCount = 24; // change this if you want more or fewer
+      const heartCount = 24; // change if you want more or fewer
 
       for (let i = 0; i < heartCount; i++) {
         const heart = document.createElement("div");
