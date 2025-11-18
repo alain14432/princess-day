@@ -135,25 +135,67 @@
       height: 100%;
     }
 
+    /* Drawing heart in the center */
+    .drawing-heart {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: min(60vw, 280px);
+      transform: translate(-50%, -50%);
+    }
+
+    .heart-path {
+      fill: none;
+      stroke: #ff5c93;
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+    }
+
+    .heart-path.animate {
+      animation:
+        draw-heart 2.2s ease-out forwards,
+        fill-heart 0.8s 2.2s ease-out forwards;
+    }
+
+    @keyframes draw-heart {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes fill-heart {
+      from {
+        fill: rgba(255, 92, 147, 0);
+      }
+      to {
+        fill: rgba(255, 92, 147, 0.9);
+      }
+    }
+
+    /* Burst hearts that cover the screen */
     .burst-heart {
       position: absolute;
       transform: translate(-50%, -50%) scale(0);
-      font-size: clamp(4rem, 14vw, 9rem);
+      font-size: clamp(4rem, 16vw, 10rem);
       text-shadow: 0 0 25px rgba(255, 105, 180, 0.9);
-      animation: heart-pop 0.7s ease-out forwards,
-                 heart-breathe 2.5s ease-in-out infinite alternate;
+      animation:
+        heart-pop 0.7s ease-out forwards,
+        heart-breathe 2.5s ease-in-out infinite alternate;
       pointer-events: none;
     }
 
     @keyframes heart-pop {
       0%   { transform: translate(-50%, -50%) scale(0); }
-      60%  { transform: translate(-50%, -50%) scale(1.25); }
-      100% { transform: translate(-50%, -50%) scale(1); }
+      60%  { transform: translate(-50%, -50%) scale(1.35); }
+      100% { transform: translate(-50%, -50%) scale(1.05); }
     }
 
     @keyframes heart-breathe {
-      0%   { transform: translate(-50%, -50%) scale(1); }
-      100% { transform: translate(-50%, -50%) scale(1.18); }
+      0%   { transform: translate(-50%, -50%) scale(1.05); }
+      100% { transform: translate(-50%, -50%) scale(1.2); }
     }
 
     .big-heart-caption {
@@ -183,8 +225,28 @@
   <!-- BIG HEARTS OVERLAY -->
   <div id="bigHeartOverlay" class="big-heart-overlay" onclick="hideBigHeart()">
     <div class="heart-field" id="heartField">
+      <!-- SVG heart that draws itself -->
+      <svg
+        class="drawing-heart"
+        viewBox="0 0 100 100"
+        aria-hidden="true"
+      >
+        <!-- simple heart path -->
+        <path
+          id="heartPath"
+          class="heart-path"
+          d="M50 86
+             S10 65 10 40
+             C10 22 25 14 37 14
+             C44 14 50 18 50 22
+             C50 18 56 14 63 14
+             C75 14 90 22 90 40
+             C90 65 50 86 50 86Z"
+        />
+      </svg>
+
       <div class="big-heart-caption">
-        This is still not as big as my love for you. (Tap to close.)
+        This is still not as big as my love for you. Tap anywhere to close.
       </div>
     </div>
   </div>
@@ -195,10 +257,10 @@
     <h2>Royal Decree of Cuteness</h2>
 
     <section class="letter">
-      <p>Dearest Princess Annie,</p>
+      <p>Dearest YOUR PRINCESS' NAME,</p>
 
       <p>
-        By royal decree (issued directly by my heart), today is officially
+        By royal decree, issued directly by my heart, today is officially
         <strong>Princess Day</strong>. It is a day dedicated entirely to you:
         your smile, your laugh, your chaos, your softness, your everything.
       </p>
@@ -213,7 +275,7 @@
 
       <p>
         You are my favorite notification, my favorite call, my favorite
-        “are you still awake?” message. Even when we are not in the same place,
+        "are you still awake?" message. Even when we are not in the same place,
         you somehow make everywhere feel a bit more like home.
       </p>
 
@@ -226,37 +288,38 @@
       </p>
 
       <p>
-        One day, Princess Day will not be long-distance. One day it will be
+        One day, Princess Day will not be long distance. One day it will be
         <em>coffee in the morning, hugs that are actually in 3D, and me
         annoying you in person.</em> Until then, I will keep doing what I can:
         calls, messages, dumb jokes, small websites like this, all the tiny
-        things that say “I choose you” over and over again.
+        things that say "I choose you" over and over again.
       </p>
 
       <p>
-        So take this little page as proof. You are not “too much”, you are not
-        a burden, you are not alone. You are my princess. And I am really,
+        So take this little page as proof. You are not "too much", you are not
+        a burden, you are not alone. You are my princess, and I am really,
         really glad I get to love you.
       </p>
 
       <p class="signature">
-        With all my love across cities,<br />
-        Alain Shimwa
+        With all my love,<br />
+        [your name or little nickname]
       </p>
     </section>
 
     <div class="divider"></div>
 
-    <!-- HEART EXPLOSION BUTTON -->
+    <!-- HEART DRAW + EXPLOSION BUTTON -->
     <section class="btn-area" style="margin-bottom: 0.75rem;">
       <p style="font-size:0.9rem; margin-bottom:0.5rem;">
-        Click to see how much I love you. Warning, very dramatic. 💥❤️
+        Click to see how much I love you. First it draws, then it explodes. 💥❤️
       </p>
       <button type="button" onclick="showBigHeart()">
         Click to see how much I love you
       </button>
     </section>
 
+    <!-- Compliment generator -->
     <section class="btn-area">
       <p style="font-size:0.9rem; margin-bottom:0.5rem;">
         Press this whenever you need a royal reminder. 💌
@@ -296,13 +359,29 @@
     function showBigHeart() {
       const overlay = document.getElementById("bigHeartOverlay");
       const heartField = document.getElementById("heartField");
+      const path = document.getElementById("heartPath");
 
-      // Clear any existing hearts so they do not stack forever
-      const oldHearts = heartField.querySelectorAll(".burst-heart");
-      oldHearts.forEach(h => h.remove());
+      overlay.classList.add("show");
 
-      // Create a bunch of hearts
-      const heartCount = 20;
+      // remove any old hearts
+      heartField.querySelectorAll(".burst-heart").forEach(h => h.remove());
+
+      // restart drawing animation
+      path.classList.remove("animate");
+      void path.offsetWidth; // force reflow so animation restarts
+      path.classList.add("animate");
+
+      // after the drawing finishes, spawn the screen full of hearts
+      setTimeout(spawnHearts, 2300);
+    }
+
+    function spawnHearts() {
+      const overlay = document.getElementById("bigHeartOverlay");
+      if (!overlay.classList.contains("show")) return; // if closed early, do nothing
+
+      const heartField = document.getElementById("heartField");
+      const heartCount = 24; // change this if you want more or fewer
+
       for (let i = 0; i < heartCount; i++) {
         const heart = document.createElement("div");
         heart.classList.add("burst-heart");
@@ -310,7 +389,7 @@
 
         const top = Math.random() * 90 + 5;   // 5–95%
         const left = Math.random() * 90 + 5;  // 5–95%
-        const delay = Math.random() * 0.6;    // stagger a bit
+        const delay = Math.random() * 0.5;    // small stagger
 
         heart.style.top = top + "%";
         heart.style.left = left + "%";
@@ -318,8 +397,6 @@
 
         heartField.appendChild(heart);
       }
-
-      overlay.classList.add("show");
     }
 
     function hideBigHeart() {
