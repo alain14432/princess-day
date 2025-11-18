@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Happy Princess Day 👑</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #ffe6f7, #fce4ff, #fdf9ff);
+      color: #3b2a3f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 2.5rem 2rem;
+      max-width: 650px;
+      border-radius: 24px;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.09);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 192, 203, 0.6);
+    }
+
+    .crown {
+      font-size: 2.2rem;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 0;
+      font-size: 1.9rem;
+      letter-spacing: 0.05em;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-top: 0.75rem;
+      margin-bottom: 1.8rem;
+      opacity: 0.8;
+    }
+
+    .letter {
+      font-size: 0.98rem;
+      line-height: 1.6;
+      white-space: pre-line;
+    }
+
+    .signature {
+      margin-top: 1.5rem;
+      font-style: italic;
+    }
+
+    .divider {
+      margin: 1.8rem auto 1.5rem;
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #f0a3c4, transparent);
+    }
+
+    .btn-area {
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    button {
+      border: none;
+      padding: 0.75rem 1.4rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      background: linear-gradient(135deg, #ffb6d9, #ffcde4);
+      box-shadow: 0 8px 20px rgba(255, 170, 204, 0.6);
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(255, 170, 204, 0.8);
+    }
+
+    button:active {
+      transform: translateY(1px);
+      box-shadow: 0 4px 12px rgba(255, 170, 204, 0.6);
+    }
+
+    .compliment-box {
+      margin-top: 0.9rem;
+      min-height: 2.4rem;
+      font-size: 0.95rem;
+      text-align: center;
+      padding: 0.6rem 0.8rem;
+      border-radius: 14px;
+      background: rgba(255, 245, 250, 0.9);
+      border: 1px dashed rgba(255, 182, 193, 0.6);
+    }
+
+    .note {
+      margin-top: 1rem;
+      font-size: 0.75rem;
+      text-align: center;
+      opacity: 0.7;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        margin: 1rem;
+        padding: 1.8rem 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="crown">👑</div>
+    <h1>Happy Princess Day</h1>
+    <h2>Royal Decree of Cuteness</h2>
+
+    <section class="letter">
+      <p>Dearest YOUR PRINCESS’ NAME,</p>
+
+      <p>
+        By royal decree (issued directly by my heart), today is officially
+        <strong>Princess Day</strong> — a day dedicated entirely to you:
+        your smile, your laugh, your chaos, your softness, your everything.
+      </p>
+
+      <p>
+        I know we’re miles apart right now, but I wanted you to have a little
+        corner of the internet that belongs only to you. This page is my tiny
+        digital love letter – a reminder that somewhere out there, on some
+        random server, there’s code running just to say:
+        <strong>“You are so, so loved.”</strong>
+      </p>
+
+      <p>
+        You are my favorite notification, my favorite call, my favorite
+        “are you still awake?” message. Even when we’re not in the same place,
+        you somehow make everywhere feel a bit more like home.
+      </p>
+
+      <p>
+        Thank you for being patient with distance, for staying when it’s hard,
+        and for letting me care about you the way I do. I’m proud of you —
+        for the things you’ve already done, and the things you’re still
+        fighting your way toward. I see you trying, even on the days you feel
+        tired or discouraged, and I’m always going to be in your corner.
+      </p>
+
+      <p>
+        One day, Princess Day won’t be long-distance. One day it’ll be
+        <em>coffee in the morning, hugs that are actually in 3D, and me
+        annoying you in person</em>. Until then, I’ll keep doing what I can:
+        calls, messages, dumb jokes, small websites like this — all the tiny
+        things that say “I choose you” over and over again.
+      </p>
+
+      <p>
+        So take this little page as proof: you’re not “too much”, you’re not
+        a burden, you’re not alone. You’re my princess. And I’m really,
+        really glad I get to love you.
+      </p>
+
+      <p class="signature">
+        With all my love,<br />
+        [your name or little nickname]
+      </p>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="btn-area">
+      <p style="font-size:0.9rem; margin-bottom:0.5rem;">
+        Press this whenever you need a royal reminder. 💌
+      </p>
+      <button type="button" onclick="sendCompliment()">
+        Summon a Royal Compliment
+      </button>
+      <div id="complimentBox" class="compliment-box">
+        (A royal message will appear here.)
+      </div>
+      <div class="note">
+        This page only has one user in mind: you. 💖
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const compliments = [
+      "Your smile should honestly be illegal, it’s that powerful.",
+      "Princess status: unmatched. No one is on your level.",
+      "If you could see yourself the way I see you, you’d never doubt yourself again.",
+      "You are not just pretty, you are comforting.",
+      "Somehow you make my whole day better just by existing.",
+      "You’re my favorite person on this entire planet.",
+      "You’re allowed to rest. You’re still my princess even on low-energy days.",
+      "You’re doing better than you think, and I’m so proud of you.",
+      "Your laugh is my favorite sound.",
+      "I’m so lucky I get to love you from all these miles away."
+    ];
+
+    function sendCompliment() {
+      const box = document.getElementById("complimentBox");
+      const randomIndex = Math.floor(Math.random() * compliments.length);
+      box.textContent = compliments[randomIndex];
+    }
+  </script>
+</body>
+</html>
